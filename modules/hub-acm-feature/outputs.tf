@@ -21,7 +21,10 @@ output "git_creds_public" {
 
 output "wait" {
   description = "An output to use when you want to depend on cmd finishing"
-  value       = var.enable_policy_controller ? module.wait_for_gatekeeper.wait : module.k8sop_config.wait
+  value       = google_gke_hub_feature_membership.main.membership
+  depends_on = [
+     google_gke_hub_feature_membership.main
+  ]
 }
 
 

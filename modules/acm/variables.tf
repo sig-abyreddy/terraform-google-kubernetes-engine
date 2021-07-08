@@ -29,10 +29,10 @@ variable "location" {
   type        = string
 }
 
-variable "register_cluster" {
-  description = "If true, registers the cluster with Hub. Set to false if the cluster is already registered."
-  type        = bool
-  default     = true
+variable "cluster_membership_id" {
+  description = "If set, reuses existing Hub membership."
+  type        = string
+  default     = ""
 }
 
 # Config Sync variables
@@ -108,4 +108,16 @@ variable "hierarchy_controller" {
   description = "Configurations for Hierarchy Controller. See [Hierarchy Controller docs](https://cloud.google.com/anthos-config-management/docs/how-to/installing-hierarchy-controller) for more details"
   type        = map(any)
   default     = null
+}
+
+# Kubernetes direct operations
+variable "service_account_key_file" {
+  description = "Path to service account key file to auth as for running `gcloud container clusters get-credentials`."
+  default     = ""
+}
+
+variable "use_existing_context" {
+  description = "Use existing kubecontext to auth kube-api."
+  type        = bool
+  default     = false
 }
