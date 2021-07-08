@@ -23,4 +23,6 @@ module "acm" {
   sync_repo        = var.acm_sync_repo
   sync_branch      = var.acm_sync_branch
   policy_dir       = var.acm_policy_dir
+
+  secret_type = "none"
 }

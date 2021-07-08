@@ -24,10 +24,13 @@ module "hub_registration" {
 }
 
 resource "google_gke_hub_feature_membership" "feature_member" {
+  provider = google-beta
+
   location = "global"
   feature  = "configmanagement"
 
   membership = module.hub_registration.membership_id
+  project = var.project_id
 
   configmanagement {
     version = "1.8.0"
@@ -37,12 +40,32 @@ resource "google_gke_hub_feature_membership" "feature_member" {
       git {
         sync_repo = var.sync_repo
         policy_dir = var.policy_dir != "" ? var.policy_dir : null
-        sync_branch = var.sync_branch != "" ? var.sync_revision : null
+        sync_branch = var.sync_branch != "" ? var.sync_branch : null
         sync_rev = var.sync_revision != "" ? var.sync_revision : null
+        secret_type = var.secret_type
+      }
+    }
+
+    dynamic "policy_controller" {
+      for_each = var.enable_policy_controller ? [{enabled = true}] : []
+
+      content {
+        enabled  = true
+        template_library_installed = var.install_template_library
+        log_denies_enabled = var.enable_log_denies
+      }
+    }
+
+    dynamic "hierarchy_controller" {
+      for_each = var.hierarchy_controller == null ? [] : [var.hierarchy_controller]
+
+      content {
+        enabled = true
+        enable_hierarchical_resource_quota = each.value.enable_hierarchical_resource_quota
+        enable_pod_tree_labels = each.value.enable_pod_tree_labels
       }
     }
   }
-  provider = google-beta
 }
 
 # module "enable_acm" {

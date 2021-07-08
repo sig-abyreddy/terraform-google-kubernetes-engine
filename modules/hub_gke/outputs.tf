@@ -16,7 +16,7 @@
 
 output "membership_id" {
   description = "The ID of the hub membership"
-  value       = google_gke_hub_membership.primary.membership_id
+  value       = google_gke_hub_membership.primary[0].membership_id
   depends_on = [
     google_gke_hub_membership.primary
   ]

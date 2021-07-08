@@ -78,13 +78,13 @@ variable "create_ssh_key" {
   default     = true
 }
 
-
 variable "ssh_auth_key" {
   description = "Key for Git authentication. Overrides 'create_ssh_key' variable. Can be set using 'file(path/to/file)'-function."
   type        = string
   default     = null
 }
 
+# Policy Controller config
 variable "enable_policy_controller" {
   description = "Whether to enable the ACM Policy Controller on the cluster"
   type        = bool
@@ -97,14 +97,15 @@ variable "install_template_library" {
   default     = true
 }
 
-variable "hierarchy_controller" {
-  description = "Configurations for Hierarchy Controller. See [Hierarchy Controller docs](https://cloud.google.com/anthos-config-management/docs/how-to/installing-hierarchy-controller) for more details"
-  type        = map(any)
-  default     = null
-}
-
 variable "enable_log_denies" {
   description = "Whether to enable logging of all denies and dryrun failures for ACM Policy Controller."
   type        = bool
   default     = false
+}
+
+# Hierarchy Controller config
+variable "hierarchy_controller" {
+  description = "Configurations for Hierarchy Controller. See [Hierarchy Controller docs](https://cloud.google.com/anthos-config-management/docs/how-to/installing-hierarchy-controller) for more details"
+  type        = map(any)
+  default     = null
 }

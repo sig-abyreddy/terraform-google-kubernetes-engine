@@ -37,7 +37,7 @@ variable "zone" {
 variable "acm_sync_repo" {
   description = "Anthos config management Git repo"
   type        = string
-  default     = "git@github.com:GoogleCloudPlatform/csp-config-management.git"
+  default     = "https://github.com/GoogleCloudPlatform/csp-config-management.git"
 }
 
 variable "acm_sync_branch" {
