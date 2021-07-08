@@ -15,7 +15,7 @@
  */
 
 locals {
-  hub_project_id = var.hub_project_id == "" ? var.project_id : var.hub_project_id
+  hub_project_id          = var.hub_project_id == "" ? var.project_id : var.hub_project_id
   gke_hub_membership_name = var.gke_hub_membership_name != "" ? var.gke_hub_membership_name : "${var.project_id}-${var.location}-${var.cluster_name}"
 }
 
@@ -53,10 +53,10 @@ resource "google_project_service_identity" "sa_gkehub" {
 
 # Create the membership
 resource "google_gke_hub_membership" "primary" {
-  count = var.enable_gke_hub_registration ? 1 : 0
+  count    = var.enable_gke_hub_registration ? 1 : 0
   provider = google-beta
 
-  project = local.hub_project_id
+  project       = local.hub_project_id
   membership_id = local.gke_hub_membership_name
 
   endpoint {
