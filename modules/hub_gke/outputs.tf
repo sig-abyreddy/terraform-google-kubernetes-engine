@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-# output "git_creds_public" {
-#   description = "Public key of SSH keypair to allow the Anthos Config Management Operator to authenticate to your Git repository."
-#   value       = module.acm_operator.git_creds_public
-# }
+output "membership_id" {
+  description = "The ID of the hub membership"
+  value       = google_gke_hub_membership.primary.membership_id
+  depends_on = [
+    google_gke_hub_membership.primary
+  ]
+}
 
-# output "wait" {
-#   description = "An output to use when you want to depend on cmd finishing"
-#   value       = module.acm_operator.wait
-# }
+
+output "wait" {
+  description = "An output to use when you want to depend on registration finishing"
+  value       = local.gke_hub_membership_name
+  depends_on = [
+    google_gke_hub_membership.primary
+  ]
+}

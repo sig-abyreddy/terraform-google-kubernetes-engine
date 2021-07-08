@@ -29,18 +29,13 @@ variable "location" {
   type        = string
 }
 
-variable "operator_path" {
-  description = "Path to the operator yaml config. If unset, will download from GCS releases."
-  type        = string
-  default     = null
-}
-
-variable "enable_multi_repo" {
-  description = "Whether to use ACM Config Sync [multi-repo mode](https://cloud.google.com/kubernetes-engine/docs/add-on/config-sync/how-to/multi-repo)."
+variable "register_cluster" {
+  description = "If true, registers the cluster with Hub. Set to false if the cluster is already registered."
   type        = bool
-  default     = false
+  default     = true
 }
 
+# Config Sync variables
 variable "sync_repo" {
   description = "ACM Git repo address"
   type        = string
@@ -58,15 +53,23 @@ variable "sync_revision" {
   default     = ""
 }
 
+variable "source_format" {
+  description = "Configures a non-hierarchical repo if set to 'unstructured'. Uses [ACM defaults](https://cloud.google.com/anthos-config-management/docs/how-to/installing#configuring-config-management-operator) when unset."
+  type        = string
+  default     = ""
+}
+
 variable "policy_dir" {
   description = "Subfolder containing configs in ACM Git repo. If un-set, uses Config Management default."
   type        = string
   default     = ""
 }
 
-variable "cluster_endpoint" {
-  description = "Kubernetes cluster endpoint."
+# Config Sync Auth config
+variable "secret_type" {
+  description = "git authentication secret type, is passed through to ConfigManagement spec.git.secretType. Overriden to value 'ssh' if `create_ssh_key` is true"
   type        = string
+  default     = "ssh"
 }
 
 variable "create_ssh_key" {
@@ -75,11 +78,6 @@ variable "create_ssh_key" {
   default     = true
 }
 
-variable "secret_type" {
-  description = "git authentication secret type, is passed through to ConfigManagement spec.git.secretType. Overriden to value 'ssh' if `create_ssh_key` is true"
-  type        = string
-  default     = "ssh"
-}
 
 variable "ssh_auth_key" {
   description = "Key for Git authentication. Overrides 'create_ssh_key' variable. Can be set using 'file(path/to/file)'-function."
@@ -99,12 +97,6 @@ variable "install_template_library" {
   default     = true
 }
 
-variable "source_format" {
-  description = "Configures a non-hierarchical repo if set to 'unstructured'. Uses [ACM defaults](https://cloud.google.com/anthos-config-management/docs/how-to/installing#configuring-config-management-operator) when unset."
-  type        = string
-  default     = ""
-}
-
 variable "hierarchy_controller" {
   description = "Configurations for Hierarchy Controller. See [Hierarchy Controller docs](https://cloud.google.com/anthos-config-management/docs/how-to/installing-hierarchy-controller) for more details"
   type        = map(any)
@@ -113,17 +105,6 @@ variable "hierarchy_controller" {
 
 variable "enable_log_denies" {
   description = "Whether to enable logging of all denies and dryrun failures for ACM Policy Controller."
-  type        = bool
-  default     = false
-}
-
-variable "service_account_key_file" {
-  description = "Path to service account key file to auth as for running `gcloud container clusters get-credentials`."
-  default     = ""
-}
-
-variable "use_existing_context" {
-  description = "Use existing kubecontext to auth kube-api."
   type        = bool
   default     = false
 }

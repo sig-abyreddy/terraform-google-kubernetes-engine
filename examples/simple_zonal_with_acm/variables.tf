@@ -25,27 +25,13 @@ variable "cluster_name_suffix" {
 
 variable "region" {
   description = "The region to host the cluster in"
+  default = "us-central1"
 }
 
-variable "zones" {
-  type        = list(string)
-  description = "The zone to host the cluster in (required if is a zonal cluster)"
-}
-
-variable "network" {
-  description = "The VPC network to host the cluster in"
-}
-
-variable "subnetwork" {
-  description = "The subnetwork to host the cluster in"
-}
-
-variable "ip_range_pods" {
-  description = "The secondary ip range to use for pods"
-}
-
-variable "ip_range_services" {
-  description = "The secondary ip range to use for services"
+variable "zone" {
+  type        = string
+  description = "The zone to host the cluster in"
+  default = "us-central1-a"
 }
 
 variable "acm_sync_repo" {
@@ -66,8 +52,3 @@ variable "acm_policy_dir" {
   default     = "foo-corp"
 }
 
-variable "operator_path" {
-  description = "Path to the operator yaml config. If unset, will download from GCS releases."
-  type        = string
-  default     = null
-}

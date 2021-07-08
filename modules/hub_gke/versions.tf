@@ -1,5 +1,6 @@
+
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +15,10 @@
  * limitations under the License.
  */
 
-# output "git_creds_public" {
-#   description = "Public key of SSH keypair to allow the Anthos Config Management Operator to authenticate to your Git repository."
-#   value       = module.acm_operator.git_creds_public
-# }
+terraform {
+  required_version = ">= 0.13.0"
 
-# output "wait" {
-#   description = "An output to use when you want to depend on cmd finishing"
-#   value       = module.acm_operator.wait
-# }
+  provider_meta "google" {
+    module_name = "blueprints/terraform/terraform-google-kubernetes-engine:hub/v15.0.2"
+  }
+}
