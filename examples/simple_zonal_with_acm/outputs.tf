@@ -34,10 +34,10 @@ output "service_account" {
   value       = module.gke.service_account
 }
 
-# output "acm_git_creds_public" {
-#   description = "Public key of SSH keypair to allow the Anthos Operator to authenticate to your Git repository."
-#   value       = module.acm.git_creds_public
-# }
+output "acm_git_creds_public" {
+  description = "Public key of SSH keypair to allow the Anthos Operator to authenticate to your Git repository."
+  value       = module.acm.git_creds_public
+}
 
 # Standard test outputs
 output "project_id" {
