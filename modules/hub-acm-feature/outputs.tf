@@ -23,7 +23,7 @@ output "wait" {
   description = "An output to use when you want to depend on cmd finishing"
   value       = google_gke_hub_feature_membership.main.membership
   depends_on = [
-     google_gke_hub_feature_membership.main
+    google_gke_hub_feature_membership.main
   ]
 }
 

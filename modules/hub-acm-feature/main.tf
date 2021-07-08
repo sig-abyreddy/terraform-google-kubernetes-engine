@@ -15,16 +15,16 @@
  */
 
 locals {
-  private_key                     = var.create_ssh_key && var.ssh_auth_key == null ? tls_private_key.k8sop_creds[0].private_key_pem : var.ssh_auth_key
-  k8sop_creds_secret_key          = var.secret_type == "cookiefile" ? "cookie_file" : var.secret_type
+  private_key            = var.create_ssh_key && var.ssh_auth_key == null ? tls_private_key.k8sop_creds[0].private_key_pem : var.ssh_auth_key
+  k8sop_creds_secret_key = var.secret_type == "cookiefile" ? "cookie_file" : var.secret_type
 }
 
 module "registration" {
   source = "../hub-gke"
 
-  cluster_name = var.cluster_name
-  project_id   = var.project_id
-  location     = var.location
+  cluster_name                = var.cluster_name
+  project_id                  = var.project_id
+  location                    = var.location
   enable_gke_hub_registration = var.cluster_membership_id == "" ? true : false
 }
 
@@ -35,7 +35,7 @@ resource "google_gke_hub_feature_membership" "main" {
   feature  = "configmanagement"
 
   membership = var.cluster_membership_id != "" ? var.cluster_membership_id : module.registration.membership_id
-  project = var.project_id
+  project    = var.project_id
 
   configmanagement {
     version = "1.8.0"
@@ -43,21 +43,21 @@ resource "google_gke_hub_feature_membership" "main" {
       source_format = var.source_format != "" ? var.source_format : null
 
       git {
-        sync_repo = var.sync_repo
-        policy_dir = var.policy_dir != "" ? var.policy_dir : null
+        sync_repo   = var.sync_repo
+        policy_dir  = var.policy_dir != "" ? var.policy_dir : null
         sync_branch = var.sync_branch != "" ? var.sync_branch : null
-        sync_rev = var.sync_revision != "" ? var.sync_revision : null
+        sync_rev    = var.sync_revision != "" ? var.sync_revision : null
         secret_type = var.secret_type
       }
     }
 
     dynamic "policy_controller" {
-      for_each = var.enable_policy_controller ? [{enabled = true}] : []
+      for_each = var.enable_policy_controller ? [{ enabled = true }] : []
 
       content {
-        enabled  = true
+        enabled                    = true
         template_library_installed = var.install_template_library
-        log_denies_enabled = var.enable_log_denies
+        log_denies_enabled         = var.enable_log_denies
       }
     }
 
@@ -65,9 +65,9 @@ resource "google_gke_hub_feature_membership" "main" {
       for_each = var.hierarchy_controller == null ? [] : [var.hierarchy_controller]
 
       content {
-        enabled = true
+        enabled                            = true
         enable_hierarchical_resource_quota = each.value.enable_hierarchical_resource_quota
-        enable_pod_tree_labels = each.value.enable_pod_tree_labels
+        enable_pod_tree_labels             = each.value.enable_pod_tree_labels
       }
     }
   }
